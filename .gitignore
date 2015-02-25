@@ -1,6 +1,8 @@
 *.class
 *.pyc
 *.pyo
+*.xls
+*.xlsx
 /nbproject/private/
 /application/config/database.php
 /pdf/

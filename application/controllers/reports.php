@@ -1001,6 +1001,7 @@ class Reports extends MY_Controller {
 
 
 		// Graph data of last issued
+		if($this->session->userdata('user_indicator') != 'facility'){
         $facility_issues = Facilities::facility_issued($this->session->userdata('user_indicator'),$county_id, $district_id,$facility_code);
 
 		$facility_last_issue = array();
@@ -1041,6 +1042,8 @@ class Reports extends MY_Controller {
 		$facility_ordered_ = $this -> hcmp_functions -> create_high_chart_graph($facility_last_order);
 
         $data['facility_last_orders'] = $facility_ordered_;
+
+    }
 
 		if ($this -> input -> is_ajax_request()) :
 			$data['district_data'] = districts::getDistrict($this -> session -> userdata('county_id'));

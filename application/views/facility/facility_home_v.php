@@ -79,13 +79,13 @@
 			</p> 
         </div>
         <?php endif; // items_stocked_out_in_facility?>
-        <?php if(array_key_exists('pending', $facility_dashboard_notifications['facility_order_count']) 
-        && @$facility_dashboard_notifications['facility_order_count']['pending']>0): ?>
+        <?php if(array_key_exists('pending_all', $facility_dashboard_notifications['facility_order_count']) 
+        && @$facility_dashboard_notifications['facility_order_count']['pending_all']>0): ?>
       	<div style="height:auto; margin-bottom: 2px" class="warn message ">      	
-        	<h5>Orders Pending Approval by District Pharmacist</h5> 
+        	<h5>Orders Pending Approval by Sub-county/County Pharmacist</h5> 
         	<p>
 			<a class="link" href="<?php echo base_url('reports/order_listing/facility') ?>"><span class="badge"><?php 
-			echo $facility_dashboard_notifications['facility_order_count']['pending'] ?></span>Order(s) Pending.</a> 
+			echo $facility_dashboard_notifications['facility_order_count']['pending_all'] ?></span>Order(s) Pending.</a> 
 			</p>
         </div>
         <?php endif; //pending
@@ -126,11 +126,15 @@
         </div>
         
         <div style="height:auto; margin-bottom: 2px;color: #428bca !important;" class="distribute message " id="distribute_tab">
-            <h5>Redistribute Commodities to...</h5>
+            <h5>Redistribute Commodities</h5>
         </div>
          <div style="height:auto; margin-bottom: 2px" class="" id="distribute_hide">
          	<a href="<?php echo base_url('issues/index/external'); ?>"><h5>Other Facilities</h5></a>	 
+<<<<<<< HEAD
            <a href="<?php echo base_url('issues/index/district_store'); ?>"><h5>District Store</h5></a>  
+=======
+          <a href="<?php echo base_url('issues/index/district_store'); ?>"><h5>District Store</h5></a>
+>>>>>>> b835390bbbaececef5b823008d5200398b9964f6
         
         </div>
           

@@ -1045,6 +1045,27 @@ class Reports extends MY_Controller {
 
         $data['facility_last_orders'] = $facility_ordered_;
 
+
+        // Graph data of last logged
+        $facility_loggins = Facilities::facility_loggins($this->session->userdata('user_indicator'),$county_id, $district_id,$facility_code);
+
+		$facility_last_loggin = array();
+		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_id" => 'logged-graph'));
+		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_title" => 'Days From Last Seen'));
+		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_type" => 'bar'));
+		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_yaxis_title" => 'Days'));
+		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_categories" => array()));
+		$facility_last_loggin = array_merge($facility_last_loggin, array("series_data" => array("Days From Last Seen" => array())));
+
+		foreach ($facility_loggins as $last_loggin) :
+			$facility_last_loggin['graph_categories'] = array_merge($facility_last_loggin['graph_categories'], array($last_loggin['Facility Name']));
+			$facility_last_loggin['series_data']['Days From Last Seen'] = array_merge($facility_last_loggin['series_data']['Days From Last Seen'], array((int)$last_loggin['Days From Last Seen']));
+		endforeach;
+
+		$facility_loggin_ = $this -> hcmp_functions -> create_high_chart_graph($facility_last_loggin);
+
+        $data['facility_last_loggin'] = $facility_loggin_;
+
     }
 
 		if ($this -> input -> is_ajax_request()) :
@@ -3640,21 +3661,26 @@ class Reports extends MY_Controller {
 		//$facility_data=Facilities::get_facilities_monitoring_data( $facility_code,$district_id,$county_id,$identifier);
 
 		//get the monitoring data from the log tables
-		$facility_data = Facilities::facility_monitoring($county_id, $district_id, $facility_code);
+		$facility_data = Facilities::facility_monitoring($this->session->userdata('user_indicator'),$county_id, $district_id, $facility_code);
 		//echo "<pre>";print_r($facility_data);exit;
 		$row_data = array();
 
 		foreach ($facility_data as $facility) {
 
 			$date = (strtotime($facility['last_seen'])) ? date('j M, Y', strtotime($facility['last_seen'])) : "N/A";
-			array_push($row_data, array($facility['Facility Name'], $facility['Facility Code'], $facility['County'], $facility['Sub County'], date('j M, Y', strtotime($facility['Date Last Issued'])), $facility['Days from last issue'], 
-				date('j M, Y', strtotime($facility['Date Last Seen'])), $facility['Days From Last Seen']));
+			array_push($row_data, array($facility['Facility Name'], $facility['Facility Code'], $facility['County'], $facility['Sub County'], 
+				                     date('j M, Y', strtotime($facility['Date Last Issued'])), $facility['Days From Last Issue'], 
+				                     date('j M, Y', strtotime($facility['Date Last Redistributed'])), $facility['Days From Last Redistributed'], 
+				                     date('j M, Y', strtotime($facility['Date Last Ordered'])), $facility['Days From Last Order'], 
+				                     date('j M, Y', strtotime($facility['Date Last Decommissioned'])), $facility['Days From Last Decommissioned'], 
+				                     date('j M, Y', strtotime($facility['Date Last Received Order'])), $facility['Days From Last Received Order'], 
+				                     date('j M, Y', strtotime($facility['Date Last Seen'])), $facility['Days From Last Seen']));
 		}
 
 		$excel_data = array();
-		$excel_data = array('doc_creator' => 'HCMP ', 'doc_title' => 'System Usage Breakdown ', 'file_name' => 'system usage breakdown');
+		$excel_data = array('doc_creator' => 'HCMP ', 'doc_title' => 'System Usage Breakdown ', 'file_name' => 'System Usage Breakdown');
 	    //$column_data = array("First Name", "Last Name", "date last seen", "# of days", "date last issued", "# of days", "Sub County", "facility name", "mfl");
-		$column_data = array("Facility Name", "Facility Code", "County", "Sub County", "Date Last Issued", "Days From Last Issue", "Date Last Seen", "Days From Last Seen");
+		$column_data = array("Facility Name", "Facility Code", "County", "Sub County", "Date Last Issued", "Days From Last Issue", "Date Last Redistributed", "Days From Last Redistribution", "Date Last Ordered", "Days From Last Order", "Date Last Decommissioned", "Days From Last Decommission", "Date Last Received Order", "Days From Last Received Order", "Date Last Seen", "Days From Last Seen");
 
 		$excel_data['column_data'] = $column_data;
 		$excel_data['row_data'] = $row_data;

@@ -242,30 +242,35 @@ class Facilities extends Doctrine_Record {
 
 
 	//gets the monitoring data for all the facilities using HCMP
-	public static function facility_monitoring($county_id, $district_id, $facility_code=null)
+	public static function facility_monitoring($type, $county_id = NULL, $district_id = NULL, $facility_code=null)
 	{
-		if(isset($facility_code)&&($facility_code>0)):
+		switch ($type) {
+			case 'facility':
 			$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 				CALL facility_monitoring('facility','$facility_code');
 			");
 			//return the monitoring data
 			//echo "<pre>";print_r($data) ;exit;
-			return $data;
+			
+			break;
 		
-		elseif(isset($district_id)&&!isset($facility_code)):
+		case 'district':
 			$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 				CALL facility_monitoring('district',$district_id');
 			");
 			//return the monitoring data
-			return $data; 
-		else:
+			
+			break; 
+
+		case 'county':
 			$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 				CALL facility_monitoring('county','$county_id');
 			");
 			//return the monitoring data
-			return $data; 
-		endif;
-		
+			
+		break;
+		}
+		return $data; 
 		
 	}
 

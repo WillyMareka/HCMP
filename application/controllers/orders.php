@@ -175,11 +175,9 @@ class orders extends MY_Controller {
 		$amc_calc =$this->hcmp_functions->amc($county,$district,$facility_code);
 		//echo '<pre>'; print_r($amc_calc);echo '<pre>'; exit;
 		$items = ((isset($source)) && ($source = 2)) ? Facility_Transaction_Table::get_commodities_for_ordering_meds($facility_code) : Facility_Transaction_Table::get_commodities_for_ordering($facility_code);
-<<<<<<< HEAD
-		//checks to see whether the order is being uploaded via excel
-=======
+
 		//echo '<pre>';print_r($items); echo '</pre>';
->>>>>>> b835390bbbaececef5b823008d5200398b9964f6
+
 		if (isset($_FILES['file']) && $_FILES['file']['size'] > 0) {
 			$ext = pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
 			if ($ext == 'xls') {
@@ -298,12 +296,7 @@ class orders extends MY_Controller {
 
 			}
 			$data['order_details'] = $data['facility_order'] = $main_array;
-<<<<<<< HEAD
-		} 	
-		//when the order is not via excel
-		else 
-		{
-=======
+
 		} else {
 			
 			//echo '<pre>';print_r($items); echo '</pre>';exit;
@@ -338,7 +331,6 @@ class orders extends MY_Controller {
 			//echo '<pre>';print_r($new); echo '</pre>';
 			//exit;
 			$items=$new;
->>>>>>> b835390bbbaececef5b823008d5200398b9964f6
 			$data['order_details'] = $data['facility_order'] = $items;
 		}
 
@@ -552,17 +544,12 @@ class orders extends MY_Controller {
 			$amc = $this -> input -> post('amc');
 			//$workload = $this -> input -> post('workload');
 			//order table details
-<<<<<<< HEAD
-			//$bed_capacity = $this -> input -> post('bed_capacity');
-			//$drawing_rights = $this -> input -> post('drawing_rights');
-			$order_total = $this -> input -> post('total_order_value');
-			//$order_no = $this -> input -> post('order_no');
-=======
+
 			$bed_capacity = '0';
 			$drawing_rights = '0';;
 			$order_total = $this -> input -> post('total_order_value');
 			$order_no = '0';
->>>>>>> b835390bbbaececef5b823008d5200398b9964f6
+
 			$facility_code = $this -> input -> post('facility_code');
 			$user_id = $this -> session -> userdata('user_id');
 			$order_date = date('y-m-d');

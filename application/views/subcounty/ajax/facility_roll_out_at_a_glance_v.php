@@ -116,10 +116,11 @@
   </div>
 </div>
 <div class="col-sm-12">
-    <div class="col-sm-6" id="ordered-graph"></div>
-    <div class="col-sm-6" id="issued-graph"></div>
+    <div class="col-sm-4" id="ordered-graph"></div>
+    <div class="col-sm-4" id="issued-graph"></div>
+    <div class="col-sm-4" id="logged-graph"></div>
 </div>
-	<!-- <div id="logged-graph"></div>-->
+	 
 
 	
 
@@ -127,6 +128,7 @@
 $(function () { 
 
 <?php echo $facility_last_orders; ?>
+<?php echo $facility_last_loggin; ?>
 <?php echo $facility_last_issues; ?>
 
 });

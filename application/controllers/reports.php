@@ -3613,7 +3613,7 @@ class Reports extends MY_Controller {
 
 		//get the monitoring data from the log tables
 		$facility_data = Facilities::facility_monitoring($county_id, $district_id, $facility_code);
-		echo "<pre>";print_r($facility_data);exit;
+		//echo "<pre>";print_r($facility_data);exit;
 		$row_data = array();
 
 		foreach ($facility_data as $facility) {

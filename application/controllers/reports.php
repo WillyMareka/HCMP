@@ -1047,20 +1047,41 @@ class Reports extends MY_Controller {
 
 
         // Graph data of last logged
+        //Red color #c0392b
         $facility_loggins = Facilities::facility_loggins($this->session->userdata('user_indicator'),$county_id, $district_id,$facility_code);
 
 		$facility_last_loggin = array();
+		$color = array();
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_id" => 'logged-graph'));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_title" => 'Days From Last Seen'));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_type" => 'bar'));
+        
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_yaxis_title" => 'Days'));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_categories" => array()));
+		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_color" => array()));
+		
 		$facility_last_loggin = array_merge($facility_last_loggin, array("series_data" => array("Days From Last Seen" => array())));
 
 		foreach ($facility_loggins as $last_loggin) :
 			$facility_last_loggin['graph_categories'] = array_merge($facility_last_loggin['graph_categories'], array($last_loggin['Facility Name']));
 			$facility_last_loggin['series_data']['Days From Last Seen'] = array_merge($facility_last_loggin['series_data']['Days From Last Seen'], array((int)$last_loggin['Days From Last Seen']));
+			// echo "<pre>";print_r($last_loggin);echo "</pre>";die();
+			if($last_loggin['Days From Last Seen']>=50){
+				$color['colors'] = '#c0392b';
+				$facility_last_loggin['graph_color'] = array_merge($facility_last_loggin['graph_color'], array($color['colors']));
+            }else{
+            	$color['colors'] = '#3498db';
+            	$facility_last_loggin['graph_color'] = array_merge($facility_last_loggin['graph_color'], array($color['colors']));
+                 
+            }
+
 		endforeach;
+			//echo "<pre>";print_r($facility_last_loggin);echo "</pre>";die();
+			
+            
+		
+			//echo "<pre>";print_r($facility_last_loggin);echo "</pre>";die();
+
 
 		$facility_loggin_ = $this -> hcmp_functions -> create_high_chart_graph($facility_last_loggin);
 

@@ -116,7 +116,6 @@
   </div>
 </div>
 <div class="col-sm-12">
-	
     <div class="col-sm-4" id="logged-graph"></div>
     <div class="col-sm-4" id="issued-graph"></div>
     <div class="col-sm-4" id="ordered-graph"></div>

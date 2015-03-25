@@ -2039,17 +2039,9 @@ class sms extends MY_Controller {
 	}
 
 	public function log_summary_weekly() {
-<<<<<<< HEAD
 
-
-		$data = $q = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
-			CALL national_statistics();
-        ");
-
-=======
 		$time = date('M , d Y', mktime());
-		$data = $q = Doctrine_Manager::getInstance() -> getCurrentConnection() 
-		->fetchAll("SELECT *
+		$data = $q = Doctrine_Manager::getInstance() -> getCurrentConnection()->fetchAll("SELECT *
 				FROM (SELECT f.facility_name,f.facility_code,c.county,d.district,l.user_id, 
 				if(l.issued=0 and l.ordered=0 and l.redistribute=0 and l.decommissioned=0 ,max(l.start_time_of_event),null)
 				 as login_only,
@@ -2073,7 +2065,7 @@ class sms extends MY_Controller {
 				where  using_hcmp=1 group by l.issued,l.ordered,l.redistribute,l.decommissioned,f.facility_code) AS t
 				group by issued,ordered,redistribute,decommissioned,facility_code
 		");
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
 
 		$mfl = array();
 
@@ -2091,32 +2083,9 @@ class sms extends MY_Controller {
 		}
 		$multi_dimenetional = array();
 		foreach ($data as $row) {
-<<<<<<< HEAD
-			$multi_dimenetional[$row['facility_name']][] = array('facility_name' => $row['facility_name'], 
-				                                                 'facility_code' => $row['facility_code'], 
-				                                                 'county' => $row['county'], 
-				                                                 'district' => $row['district'], 
-				                                                 'issued' => $row['issued'], 
-				                                                 'issue_event' => $row['issue_event'], 
-				                                                 'issue_d' => $row['issue_d'], 
-				                                                 'login_event' => $row['login_only'], 
-				                                                 'ordered' => $row['ordered'], 
-				                                                 'ordered_d' => $row['ordered_d'], 
-				                                                 'ordered_event' => $row['ordered_event'], 
-				                                                 'redistribute' => $row['redistribute'], 
-				                                                 'redistribute_event' => $row['redistribute_event'], 
-				                                                 'redistribute_d' => $row['redistribute_d'], 
-				                                                 'decommissioned' => $row['decommissioned'], 
-				                                                 'decommissioned_event' => $row['decommissioned_event'], 
-				                                                 'decommissioned_d' => $row['decommissioned_d'], 
-				                                                 'receive_event' => $row['receive_event'], 
-				                                                 'receive_event_d' => $row['receive_event_d'], 
-				                                                 'date_event' => $row['date_event'], 
-				                                                 'date_event_d' => $row['date_event_d']
-				                                                );
-=======
+
 			$multi_dimenetional[$row['facility_name']][] = array('facility_name' => $row['facility_name'], 'facility_code' => $row['facility_code'], 'county' => $row['county'], 'district' => $row['district'], 'issued' => $row['issued'], 'issue_event' => ($row['issue_event']), 'issue_d' => $row['issue_d'], 'login_event' => $row['login_only'], 'ordered' => $row['ordered'], 'ordered_d' => $row['ordered_d'], 'ordered_event' => $row['ordered_event'], 'redistribute' => $row['redistribute'], 'redistribute_event' => $row['redistribute_event'], 'redistribute_d' => $row['redistribute_d'], 'decommissioned' => $row['decommissioned'], 'decommissioned_event' => $row['decommissioned_event'], 'decommissioned_d' => $row['decommissioned_d'], 'receive_event' => $row['receive_event'], 'receive_event_d' => $row['receive_event_d'], 'date_event' => $row['date_event'], 'date_event_d' => $row['date_event_d']);
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
 		}
 		$clean_array = array_values($multi_dimenetional);
 
@@ -2175,24 +2144,17 @@ class sms extends MY_Controller {
 			}
 			array_push($temp2, array('facility_code' => $facility_code, 'facility_name' => $facility_name, 'county' => $county, 'district' => $district, 'issued' => '', 'issue_event' => max($issue_event), 'issue_d' => min(array_filter($issue_days)), 'login_event' => max($login_event), 'ordered' => 0, 'ordered_d' => min(array_filter($ordered_days)), 'ordered_event' => max($ordered_event), 'redistribute' => '', 'redistribute_event' => max($redistribute_event), 'redistribute_d' => min(array_filter($redistribute_days)), 'decommissioned' => '', 'decommissioned_event' => max($decommission_event), 'decommissioned_d' => min(array_filter($decommission_days)), 'receive_event' => max($receive_event), 'receive_event_d' => min(array_filter($receive_days)), 'date_event' => max($last_event), 'date_event_d' => min($lastseen_days)));
 		}
-<<<<<<< HEAD
-		//echo '<pre>';print_r(array_values($finalArray));echo '</pre>';exit;
-=======
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
+
 
 		$excel_data = array('doc_creator' => 'HCMP-Kenya', 'doc_title' => 'HCMP_Facility_Activity_Log_Summary ', 'file_name' => 'HCMP_Facility_Activity_Log_Summary ');
 		$row_data = array();
 		$column_data = array("Facility Name", "Facility Code", "County", "Sub-County", "Date Last Issued", "Days from last issue", "Date Last Redistributed", "Days From last Redistributed", "Date Last ordered", "Days From Last order", "Date Last Decommissioned", "Days From Last Decommissioned", "Date From Last Received Order", "Days From Last Received Order", "Date Last Seen", "Days From Last Seen");
 		$excel_data['column_data'] = $column_data;
-<<<<<<< HEAD
 
-		foreach ($finalArray as $key => $value) :
-			array_push($row_data, array($value['facility_name'], $value['facility_code'], $value['county'], $value['district'], $value['issue_event'], $value['issue_d'], $value['redistribute_event'], $value['redistribute_d'], $value['ordered_event'], $value['ordered_d'], $value['decommissioned_event'], $value['decommissioned_d'], $value['receive_event'], $value['receive_event_d'], $value['date_event'], $value['date_event_d']));
-
-=======
 		foreach ($temp2 as $key => $value) :
 			array_push($row_data, array($value['facility_name'], $value['facility_code'], $value['county'], $value['district'], (date('m-d-Y', strtotime($value['issue_event'])) == '01-01-1970') ? '' : date('m-d-Y', strtotime($value['issue_event'])), ($value['issue_d'] == 0) ? '' : $value['issue_d'], (date('m-d-Y', strtotime($value['redistribute_event'])) == '01-01-1970') ? '' : date('m-d-Y', strtotime($value['redistribute_event'])), ($value['redistribute_d'] == '') ? '' : $value['redistribute_d'], (date('m-d-Y', strtotime($value['ordered_event'])) == '01-01-1970') ? '' : date('m-d-Y', strtotime($value['ordered_event'])), ($value['ordered_d'] == '') ? '' : $value['ordered_d'], (date('m-d-Y', strtotime($value['decommissioned_event'])) == '01-01-1970') ? '' : date('m-d-Y', strtotime($value['decommissioned_event'])), ($value['decommissioned_d'] == '') ? '' : $value['decommissioned_d'], (date('m-d-Y', strtotime($value['receive_event'])) == '01-01-1970') ? '' : date('m-d-Y', strtotime($value['receive_event'])), ($value['receive_event_d'] == '') ? '' : $value['receive_event_d'], (date('m-d-Y', strtotime($value['date_event'])) == '01-01-1970') ? '' : date('m-d-Y', strtotime($value['date_event'])), ($value['date_event_d'] == '') ? '' : $value['date_event_d']));
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
 		endforeach;
 		$excel_data['row_data'] = $row_data;
 		$excel_data['report_type'] = 'Log Summary';

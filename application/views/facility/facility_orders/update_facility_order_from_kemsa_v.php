@@ -19,34 +19,7 @@ border: 0px ;
  $att=array("name"=>'myform','id'=>'myform'); echo form_open('orders/update_order_sub_county',$att); 
  //echo "<pre>"; print_r($facility_order);echo "<pre>";exit;
 //?>
-<<<<<<< HEAD
-<div class="row-fluid">
-		<div class="col-md-8">
-			<div class="col-md-3">
-				<p class="bg-info">
-			<span  class='' style="display: inline">
-				<strong>Fill the Order Quantity to complete order </strong>
-			</p>
-			</div>
-			<div class="col-md-9">
-				<p class="bg-info" style="margin-top: 2%">
-			<strong>Suggested Order Quantity (Quarterly)  = ((Average Monthly Consumption *
-				 <span id="month" style="display: inline"> 3</span>) - Closing Stock) + AMC</span></strong>
-				</p>
-			</div>
-			
-		</div>
-		<div class="col-md-2">
-			<b>*Order Frequency</b><input  type="text" class="form-control input-large commodity_code" readonly="readonly" value="Quarterly" />
-		</div>
-		<div class="col-md-2">
-			<b>Total Order Value(KSH)</b>
-<input type="text" class="form-control" name="total_order_value" id="total_order_value" readonly="readonly" value="0"/>	
-<input type="hidden" id="actual_drawing_rights" name="drawing_rights" value="<?php echo $drawing_rights; ?>" />		
-		</div>
-		
-	</div>
-=======
+
 <div class="row" style="padding-left: 1%;">
 	<div class="col-md-2">
 		<b>Order Frequency</b><input  type="text" class="form-control input-large commodity_code" readonly="readonly" value="Quarterly" /> 
@@ -83,7 +56,7 @@ border: 0px ;
 id="total_order_balance_value" readonly="readonly" value="<?php echo ($order_details[0]['drawing_rights']-$order_details[0]['order_total'])?>" />						
 </div>-->
 </div>
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
 <?php $order_number=$order_details[0]['id']; echo "<input type='hidden' name='order_number' value='$order_number'/>
 <input type='hidden' name='rejected' value='$rejected'/>
 <input type='hidden' name='rejected_admin' id='rejected_admin' value='0'/>
@@ -357,12 +330,7 @@ var $table = $('#example');
 
      function save_the_order_form(){
      var order_total=$('#total_order_value').val();
-<<<<<<< HEAD
-     
-     var alert_message='';
-     if (order_total==0) {alert_message+="<li>Sorry, cant submit an order value of zero</li>";}
-     // save the order here
-=======
+
      //var workload=$('#workload').val();
      //var bed_capacity=$('#bed_capacity').val();
      var alert_message='';
@@ -378,7 +346,7 @@ var $table = $('#example');
     	nxt();
     });
      }else{ // save the order here
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
          var table_data='<div class="row" style="padding-left:2em"><div class="col-md-6">Order Summary</div></div>'+
     '<div class="row" style="padding-left:2em"><div class="col-md-6">Total Order Value (Ksh)</div><div class="col-md-6">'+number_format($("#total_order_value").val(), 2, '.', ',')+'</div></div>'+
     '<table class="table table-hover table-bordered table-update">'+
@@ -402,10 +370,9 @@ var $table = $('#example');
     dialog_box(table_data,'<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>'
     +'<button type="button" class="btn btn-primary" id="save_dem_order" data-dismiss="modal">Save</button>');
    $('#main-content').on('click','#save_dem_order',function() {
-<<<<<<< HEAD
-=======
+
     $('#total_order_value').delay(500).queue(function (nxt){  	
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
     // Load up a new modal...
     var img='<img src="<?php echo base_url('assets/img/wait.gif') ?>"/>';
      dialog_box(img+'<h5 style="display: inline-block; font-weight:500;font-size: 18px;padding-left: 2%;"> Please wait as the order is being processed</h5>',

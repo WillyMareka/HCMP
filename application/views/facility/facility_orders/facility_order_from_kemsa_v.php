@@ -45,9 +45,7 @@
 
 
 <div class="row" style="padding-left: 1%;margin-bottom: 5px;">
-<<<<<<< HEAD
-	
-=======
+
 	<div class="col-md-3">
 		
 	<b>*Order Frequency</b><input  type="text" class="form-control input-large commodity_code" readonly="readonly" value="Quarterly" /> 
@@ -70,7 +68,7 @@
 <input type="text" class="form-control" name="total_order_value" id="total_order_value" readonly="readonly" value="0"/>	
 <!--<input type="hidden" id="actual_drawing_rights" name="drawing_rights" value="<?php echo $drawing_rights; ?>" />-->		
 </div>
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
 <div class="">
 
 <!--<input type="hidden" class="form-control" name="total_order_balance_value" id="total_order_balance_value" readonly="readonly" value="<?php echo $drawing_rights; ?>"/>-->	
@@ -296,10 +294,9 @@ $(document).ready(function() {
 	});// process all the order into a summary table for the user to confirm before placing the order bed_capacity workload
 	$('.test').on('click','', function (){
 	var table_data='<div class="row" style="padding-left:2em"><div class="col-md-6"><h4>Order Summary</h4></div></div>'+
-<<<<<<< HEAD
-=======
+
 	'<div class="row" style="padding-left:2em"><div class="col-md-6">Order Frequency</div><div class="col-md-6">'+($("#order_period option:selected").text())+'</div></div>'+
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
     '<div class="row" style="padding-left:2em"><div class="col-md-6">Total Order Value (Ksh)</div><div class="col-md-6">'+number_format($("#total_order_value").val(), 2, '.', ',')+'</div></div>'+
     '<table class="table table-hover table-bordered table-update">'+
 					"<thead><tr>"+
@@ -329,12 +326,7 @@ $(document).ready(function() {
       /************save the data here*******************/
 	$('#main-content').on('click','#save_dem_order',function() {
      var order_total=$('#total_order_value').val();
-<<<<<<< HEAD
-     var alert_message='';
-     if (order_total==0) {alert_message+="<li>Sorry, you can't submit an Order Value of Zero</li>";}
-     
-     //put delay timer here
-=======
+
      //var workload=$('#workload').val();
      //var bed_capacity=$('#bed_capacity').val();
      var alert_message='';
@@ -352,7 +344,7 @@ $(document).ready(function() {
      }else{
      $('#total_order_value').delay(500).queue(function (nxt){
     // Load up a new modal...
->>>>>>> 42f37c127b0af86c686cc44163e572e29e63183c
+
     var img='<img src="<?php echo base_url('assets/img/wait.gif') ?>"/>';
      dialog_box(img+'<h5 style="display: inline-block; font-weight:500;font-size: 18px;padding-left: 2%;"> Please wait as the order is being processed</h5>',
      '');

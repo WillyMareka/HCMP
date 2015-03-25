@@ -89,7 +89,7 @@
 				<th>Date Activated</th>
 				</tr>
 				</thead>
-		<tbody>			   	    
+		<tbody>	
 		<?php	foreach($get_facility_data as $detail):
 			     $facility_district = $detail['district'];
 				 $facility_code = $detail['facility_code'];							
@@ -116,6 +116,7 @@
   </div>
 </div>
 <div class="col-sm-12">
+	
     <div class="col-sm-4" id="logged-graph"></div>
     <div class="col-sm-4" id="issued-graph"></div>
     <div class="col-sm-4" id="ordered-graph"></div>

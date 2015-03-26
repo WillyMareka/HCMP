@@ -1047,41 +1047,20 @@ class Reports extends MY_Controller {
 
 
         // Graph data of last logged
-        //Red color #c0392b
         $facility_loggins = Facilities::facility_loggins($this->session->userdata('user_indicator'),$county_id, $district_id,$facility_code);
 
 		$facility_last_loggin = array();
-		$color = array();
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_id" => 'logged-graph'));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_title" => 'Days From Last Seen'));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_type" => 'bar'));
-        
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_yaxis_title" => 'Days'));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_categories" => array()));
-		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_color" => array()));
-		
 		$facility_last_loggin = array_merge($facility_last_loggin, array("series_data" => array("Days From Last Seen" => array())));
 
 		foreach ($facility_loggins as $last_loggin) :
 			$facility_last_loggin['graph_categories'] = array_merge($facility_last_loggin['graph_categories'], array($last_loggin['Facility Name']));
 			$facility_last_loggin['series_data']['Days From Last Seen'] = array_merge($facility_last_loggin['series_data']['Days From Last Seen'], array((int)$last_loggin['Days From Last Seen']));
-			// echo "<pre>";print_r($last_loggin);echo "</pre>";die();
-			if($last_loggin['Days From Last Seen']>=50){
-				$color['colors'] = '#c0392b';
-				$facility_last_loggin['graph_color'] = array_merge($facility_last_loggin['graph_color'], array($color['colors']));
-            }else{
-            	$color['colors'] = '#3498db';
-            	$facility_last_loggin['graph_color'] = array_merge($facility_last_loggin['graph_color'], array($color['colors']));
-                 
-            }
-
 		endforeach;
-			//echo "<pre>";print_r($facility_last_loggin);echo "</pre>";die();
-			
-            
-		
-			//echo "<pre>";print_r($facility_last_loggin);echo "</pre>";die();
-
 
 		$facility_loggin_ = $this -> hcmp_functions -> create_high_chart_graph($facility_last_loggin);
 
@@ -1122,6 +1101,8 @@ class Reports extends MY_Controller {
 		//Holds the district names and months rolled out in a particular county
 		$district_names = "<thead><tr><th>Sub County Roll Outs</th>";
 		$sub_county_names = "<thead><tr><th>Sub County</th>";
+		$monthly_district_names = $district_names;
+		$monthly_sub_county_names = $sub_county_names;
 		//Total number of facilities in the district
 		$district_total = array();
 		//Total number of facilities in the district
@@ -1142,9 +1123,116 @@ class Reports extends MY_Controller {
 		$percentage_coverage_using = "";
 		$percentage_coverage_total_using = 0;
 		
+		foreach ($district_data as $district_detail) {
+			$monthly_sub_county_names .= '<th>'.$district_detail -> district.'</th>';
+			$monthly_district_names .= '<th>'.$district_detail -> district.'</th>';
+		}
 		//get the months and dates the facilities rolled out on HCMP
-		$get_dates_facility_went_online = facilities::get_dates_facility_went_online($county_id);
-		
+		$get_dates_facility_went_online = facilities::get_dates_facility_went_online_cleaned($county_id);
+		// echo "<pre>";print_r($get_dates_facility_went_online);die;
+		$accordion = '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
+		$counter = 0;
+		foreach ($get_dates_facility_went_online as $key => $value) {
+			$counter++;
+			$accordion .= '<div class="panel panel-default">';
+			$accordion .= '<div class="panel-heading" role="tab" id="heading_'.$counter.'">';
+			$accordion .= '<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse_'.$counter.'" aria-expanded="true" aria-controls="collapse_'.$counter.'">'.$key.'</a></h4>';
+			$accordion .= '</div>';
+			$accordion .= '<div id="collapse_'.$counter.'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_'.$counter.'">';
+			$accordion .= '<div class = "panel-body">';
+			$accordion .= '<table class = "table table-bordered table-hover">';
+			$accordion .= $monthly_district_names;
+			$accordion .= '<th>Total</th></thead>';
+			foreach ($value as $k => $v) {
+				$accordion .= '<tr><td>'.$v.'</td>';
+				$monthly_total = 0;
+				foreach ($district_data as $district_detail) {
+					$district_id = $district_detail -> id;
+					$district_name = $district_detail -> district;
+					$get_facilities_which_went_online_ = facilities::get_facilities_which_went_online_($district_id, $v);
+					$total = $get_facilities_which_went_online_[0]['total'];
+					$total_facilities = $get_facilities_which_went_online_[0]['total_facilities'];
+					$total_facilities_targetted = $get_facilities_which_went_online_[0]['total_facilities_targetted'];
+					$total_facilitites_using_hcmp = $get_facilities_which_went_online_[0]['total_using_hcmp'];
+					$monthly_total = $monthly_total + $total;
+					$all_facilities = $all_facilities + $total;
+
+					$accordion .= '<td>';
+					$accordion .= ($total > 0) ? '<a href="#"" id="'.$district_id.'" class="ajax_call2 link" date='.$v.'>'.$total.'</a>' : $total ;
+					$accordion .= '</td>';
+
+					//total facilities online in that particular month
+					(array_key_exists($district_name, $district_total)) ? $district_total[$district_name] = $district_total[$district_name] + $total : $district_total = array_merge($district_total, array($district_name => ($total)));
+					//total facilities in the district
+					(array_key_exists($district_name, $district_total_facilities)) ? $district_total_facilities[$district_name] = $total_facilities : $district_total_facilities = array_merge($district_total_facilities, array($district_name => $total_facilities));
+					//total facilities targetted in the district
+					(array_key_exists($district_name, $district_total_facilities_targetted)) ? $district_total_facilities_targetted[$district_name] = $total_facilities_targetted : $district_total_facilities_targetted = array_merge($district_total_facilities_targetted, array($district_name => $total_facilities_targetted));
+					//total facilities using hcmp using HCMP in the district
+					(array_key_exists($district_name, $district_total_facilities_using_hcmp)) ? $district_total_facilities_using_hcmp[$district_name] = $total_facilitites_using_hcmp : $district_total_facilities_using_hcmp = array_merge($district_total_facilities_using_hcmp, array($district_name => $total_facilitites_using_hcmp));
+				}
+				$accordion .= '<td>'.$monthly_total.'</td></tr>';
+			}
+			$accordion .= '</table>';
+			$accordion .= '</div>';
+			$accordion .= '</div>';
+			$accordion .= '</div>';
+		}
+		$district_percetage_coverage = array();
+		foreach ($district_data as $district_detail) {
+			$dt = $district_total[$district_detail -> district];
+			$dtf = $district_total_facilities[$district_detail -> district];
+
+			$pc = round($dt / $dtf * 100, 0);
+			$district_percetage_coverage[$district_detail -> district] = $pc;
+		}
+
+		$district_totals = array_sum($district_total);
+		$district_total_facility = array_sum($district_total_facilities);
+		$total_covered = round($district_totals / $district_total_facility * 100, 1);
+
+		$accordion .= '<div class="panel panel-default">';
+		$accordion .= '<div class="panel-heading" role="tab" id="summary_heading">';
+		$accordion .= '<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse_summary" aria-expanded="true" aria-controls="collapse_summary">Rollout Summary</a></h4>';
+		$accordion .= '</div>';
+		$accordion .= '<div id="collapse_summary" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="summary_heading">';
+		$accordion .= '<div class = "panel-body">';
+		$accordion .= '<table class = "table table-bordered table-hover">';
+		$accordion .= '<thead>';
+		$accordion .= $monthly_sub_county_names;
+		$accordion .= '<th>Total</th></thead>';
+		$accordion .= '<tbody>';
+		$accordion .= '<tr><th>Total: Facilities Using HCMP</th>';
+		foreach ($district_data as $district_detail) {
+			$accordion .= '<td>';
+			$accordion .= $district_total[$district_detail -> district];
+			$accordion .= '</td>';
+		}
+		$accordion .= '<td>'.$district_totals.'</td>';
+		$accordion .= '</tr>';
+		$accordion .= '<tr>';
+		$accordion .= '<th>TOTAL: Facilities in Sub County</th>';
+		foreach ($district_data as $district_detail) {
+			$accordion .= '<td>';
+			$accordion .= $district_total_facilities[$district_detail -> district];
+			$accordion .= '</td>';
+		}
+		$accordion .= '<td>'.$district_total_facility.'</td>';
+		$accordion .= '</tr>';
+		$accordion .= '<tr><th>% Coverage</th>';
+		foreach ($district_data as $district_detail) {
+			$accordion .= '<td>';
+			$accordion .= $district_percetage_coverage[$district_detail -> district] . ' %';
+			$accordion .= '</td>';
+		}
+		$accordion .= '<td>'.$total_covered.' %</td>';
+		$accordion .= '</tr>';
+		$accordion .= '</tbody></table>';
+		$accordion .= '</div>';
+		$accordion .= '</div>';
+		$accordion .= '</div>';
+		$accordion .= '</div>';
+
+		// echo $accordion;die;
 		foreach ($get_dates_facility_went_online as $facility_dates) :
 			$monthly_total = 0;
 			$date = $facility_dates['date_when_facility_went_online'];
@@ -1189,7 +1277,7 @@ class Reports extends MY_Controller {
 		
 		$table_data_summary .= "<tr>";
 		$checker = 1;
-		//echo "<pre>";print_r($district_total);exit;
+		// echo "<pre>";print_r($district_total);exit;
 		foreach ($district_total as $key => $value) :
 			$coverage = 0;
 			$using = 0;
@@ -1237,9 +1325,7 @@ class Reports extends MY_Controller {
         <li ><a href='#B' data-toggle='tab'>Monthly Break Down</a></li>
         <li><button type='button' class='btn btn-default download'>System Usage Breakdown</button></li>
         </ul>
-         <div  id='B' class='tab-pane fade'>
-			<table class='row-fluid table table-hover table-bordered table-update' width='80%' id='test1'>" . $district_names . $table_data . $total_facility_list . "<td>$total_facilities_in_county</td></tr>" . $total_targetted_facility_list . $percentage_coverage . "<td>$final_coverage_total %</td></tr>" . $percentage_coverage_using . "</tr>
-			</table>
+         <div  id='B' class='tab-pane fade'>".$accordion."			</table>
 		</div>
 		
 		<div id='A' class='tab-pane fade active in' >

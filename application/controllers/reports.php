@@ -1057,6 +1057,7 @@ class Reports extends MY_Controller {
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_type" => 'bar'));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_yaxis_title" => 'Days'));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_categories" => array()));
+		$facility_last_loggin = array_merge($facility_last_loggin, array("graph_color" => array()));
 		$facility_last_loggin = array_merge($facility_last_loggin, array("series_data" => array("Days From Last Seen" => array())));
 
 		foreach ($facility_loggins as $last_loggin) :

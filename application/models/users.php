@@ -253,7 +253,11 @@ FROM
         LEFT JOIN
     facilities f ON u.facility = f.facility_code
         LEFT JOIN
+<<<<<<< HEAD
     access_level a ON a.id = u.usertype_id 
+=======
+    access_level a ON a.id = u.usertype_id
+>>>>>>> adeb8345026175947f412d167a03009b4577164c
 				");
 		return $query;
 	}

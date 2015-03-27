@@ -597,7 +597,7 @@ endif;
              if(isset($graph_color) && $graph_id == 'logged-graph'){
                 $high_chart .= "colors: ".$graph_color=json_encode(array_map('utf8_encode',$graph_data['graph_color'])) .",";
                 $graph_color = str_replace('"', "'", $graph_color); 
-                echo '<pre>';print_r($graph_color);echo "</pre>";
+                //echo '<pre>';print_r($graph_color);echo "</pre>";
 		     }
              
              $high_chart .="plotOptions: {

@@ -1662,7 +1662,10 @@ class sms extends MY_Controller {
 		}
 
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
 
 	/*CHAI REPORTS for ORS AND ZINC FOR THE ENTIRE COUNTRY*/
 	public function ors_zinc_report() {
@@ -2037,6 +2040,7 @@ class sms extends MY_Controller {
 		unlink($file);
 		//delete the attachment after sending to avoid clog up of pdf'ss
 	}
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 	public function log_summary_weekly() {
@@ -2481,3 +2485,9 @@ group by issued,ordered,redistribute,decommissioned,facility_code
        
 }
 >>>>>>> 85b4c451556765e4511c656bc114b36b2f1ad3cf
+=======
+
+	
+
+}
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af

@@ -19,6 +19,7 @@ border: 0px ;
  $att=array("name"=>'myform','id'=>'myform'); echo form_open('orders/update_order_facility',$att); 
  //echo "<pre>"; print_r($facility_order);echo "<pre>";exit;
 //?>
+<<<<<<< HEAD
 
 <div class="row" style="padding-left: 1%;">
 	<div class="col-md-2">
@@ -57,6 +58,34 @@ id="total_order_balance_value" readonly="readonly" value="<?php echo ($order_det
 </div>-->
 </div>
 
+=======
+<div class="row-fluid">
+		<div class="col-md-8">
+			<div class="col-md-3">
+				<p class="bg-primary">
+			<span  class='' style="display: inline">
+				<strong>Fill the Order Quantity to complete order </strong>
+			</p>
+			</div>
+			<div class="col-md-9">
+				<p class="bg-info" style="margin-top: 2%">
+			<strong>Suggested Order Quantity (Quarterly)  = ((Average Monthly Consumption *
+				 <span id="month" style="display: inline"> 3</span>) - Closing Stock) + AMC</span></strong>
+				</p>
+			</div>
+			
+		</div>
+		<div class="col-md-2">
+			<b>*Order Frequency</b><input  type="text" class="form-control input-large commodity_code" readonly="readonly" value="Quarterly" />
+		</div>
+		<div class="col-md-2">
+			<b>Total Order Value(KSH)</b>
+<input type="text" class="form-control" name="total_order_value" id="total_order_value" readonly="readonly" value="0"/>	
+<input type="hidden" id="actual_drawing_rights" name="drawing_rights" value="<?php echo $drawing_rights; ?>" />		
+		</div>
+		
+	</div>
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
 <?php $order_number=$order_details[0]['id']; echo "<input type='hidden' name='order_number' value='$order_number'/>
 <input type='hidden' name='rejected' value='$rejected'/>
 <input type='hidden' name='rejected_admin' id='rejected_admin' value='0'/>
@@ -76,6 +105,7 @@ id="total_order_balance_value" readonly="readonly" value="<?php echo ($order_det
 					    <th>Adj(+ve) (Units)</th>
 					    <th>Losses (Units)</th>
 					    <th>Closing Stock (Units)</th>
+					    <th>Closing Stock (Packs)</th>
 					    <th>No Days Out Of Stock</th>
 					    <th>AMC (Packs)</th>
 					    <th>Suggested Order Qty (Packs)</th>
@@ -125,12 +155,16 @@ id="total_order_balance_value" readonly="readonly" value="<?php echo ($order_det
 							<td><input class="form-control input-small" readonly="readonly" type="text"<?php echo 'name="losses['.$i.']"'; ?> value="<?php echo $facility_order[$i]['losses'] ?>" /></td>
 							
 							<td><input class="form-control input-small closing" readonly="readonly" type="text"<?php echo 'name="closing['.$i.']"'; ?> value="<?php echo $facility_order[$i]['closing_stock'];?>" /></td>
+							<td><input class="form-control input-small closingpacks" readonly="readonly" type="text"<?php echo 'name="closingpacks['.$i.']"'; ?> 
+								
+								value="<?php $closing=$facility_order[$i]['closing_stock_'];if($closing < 0 || $closing==''){echo 0;} else {echo $closing;}?>" /></td>
 							<td>
 								<input class="form-control input-small" readonly="readonly" type="text"<?php echo 'name="days['.$i.']"'; ?> 
 								value="<?php 
 								$closing_stock=$facility_order[$i]['closing_stock'];
+								$days=$facility_order[$i]['historical'];
 								
-								if ((int)$closing_stock <= 0) {
+								if ((int)$closing_stock <= 0 && (int)$days = 0) {
 								      $date_mod = $facility_order[$i]['date_modified'];
 									  
 										  $now = time(); 
@@ -178,10 +212,11 @@ id="total_order_balance_value" readonly="readonly" value="<?php echo ($order_det
 <?php endif; endif?>
 </div>
 </form>  
-
+</div>
 <script>
 $(document).ready(function() {
 	var new_count =count+1;
+<<<<<<< HEAD
 <<<<<<< HEAD:application/views/facility/facility_orders/update_facility_order_from_kemsa_v.php
 	//var drawing_rights_balance=$('#actual_drawing_rights').val();
 var $table = $('#example');
@@ -192,11 +227,16 @@ var $table = $('#example');
 	 scrollContainer: function($table){ return $table.closest('.col-md-3'); }
 	});	
 =======
+=======
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
 	var drawing_rights_balance=$('#actual_drawing_rights').val();
 	//auto compute the values
 	calculate_totals();
 	calculate_suggested_value(3);
+<<<<<<< HEAD
 >>>>>>> 85b4c451556765e4511c656bc114b36b2f1ad3cf:application/views/facility/facility_orders/update_order_subc.php
+=======
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
 	//datatables settings 
 	$('#example').dataTable( {
        "sPaginationType": "bootstrap",
@@ -274,6 +314,7 @@ var $table = $('#example');
                             '<input class="form-control input-small" type="text" name="adjustmentpve['+new_count+']" id="adjustmentpve['+new_count+']"  value="0"   />' ,
 							'<input class="form-control input-small" type="text" name="losses['+new_count+']" id="losses['+new_count+']" value="0"   />' ,
 							'<input class="form-control input-small" type="text" name="closing['+new_count+']" id="closing['+new_count+']" value="0"   />',
+							'<input class="form-control input-small" type="text" name="closingpacks['+new_count+']" id="closingpacks['+new_count+']" value="0"   />',
 							'<input class="form-control input-small" type="text" name="days['+new_count+']" id="days['+new_count+']" value="0"   />',
 							'<input class="form-control input-small" type="text" name="amc['+new_count+']" id="amc['+new_count+']" value="0"   />',
 							'<input class="form-control input-small" type="text" value="0" name="suggested['+new_count+']" 	id="suggested['+new_count+']" readonly="yes"  />',
@@ -316,6 +357,7 @@ var $table = $('#example');
 	// set the order total here
 	calculate_totals();	
 	});
+<<<<<<< HEAD
 <<<<<<< HEAD:application/views/facility/facility_orders/update_facility_order_from_kemsa_v.php
      /************save the data here*******************/
 	$('#save_dem_order').on('click', function() {
@@ -355,11 +397,16 @@ var $table = $('#example');
 
          var table_data='<div class="row" style="padding-left:2em"><div class="col-md-6">Order Summary</div></div>'+
 =======
+=======
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
 	
 	// process all the order into a summary table for the user to confirm before placing the order bed_capacity workload
 	$('.approve').on('click','', function (){
 	var table_data='<div class="row" style="padding-left:2em"><div class="col-md-6"><h4>Order Summary</h4></div></div>'+
+<<<<<<< HEAD
 >>>>>>> 85b4c451556765e4511c656bc114b36b2f1ad3cf:application/views/facility/facility_orders/update_order_subc.php
+=======
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
     '<div class="row" style="padding-left:2em"><div class="col-md-6">Total Order Value (Ksh)</div><div class="col-md-6">'+number_format($("#total_order_value").val(), 2, '.', ',')+'</div></div>'+
     '<table class="table table-hover table-bordered table-update">'+
 					"<thead><tr>"+
@@ -385,6 +432,7 @@ var $table = $('#example');
     //hcmp custom message dialog
     dialog_box(table_data,'<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>'
     +'<button type="button" class="btn btn-primary" id="save_dem_order" data-dismiss="modal">Save</button>');
+<<<<<<< HEAD
 <<<<<<< HEAD:application/views/facility/facility_orders/update_facility_order_from_kemsa_v.php
    $('#main-content').on('click','#save_dem_order',function() {
 
@@ -392,6 +440,8 @@ var $table = $('#example');
 
     // Load up a new modal...
 =======
+=======
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
 	});
       /************save the data here*******************/
 
@@ -401,7 +451,10 @@ var $table = $('#example');
      if (order_total==0) {alert_message+="<li>Sorry, you can't submit an Order Value of Zero</li>";}
      
      //put delay timer here
+<<<<<<< HEAD
 >>>>>>> 85b4c451556765e4511c656bc114b36b2f1ad3cf:application/views/facility/facility_orders/update_order_subc.php
+=======
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
     var img='<img src="<?php echo base_url('assets/img/wait.gif') ?>"/>';
      dialog_box(img+'<h5 style="display: inline-block; font-weight:500;font-size: 18px;padding-left: 2%;"> Please wait as the order is being processed</h5>',
      '');
@@ -434,9 +487,9 @@ var $table = $('#example');
 	    $(this).closest("tr").find(".cost").val(total_cost);   
      });//check if order total is a NAN
     //calculate the balances here
-      //balance=parseInt(drawing_rights_balance)-order_total;
+      balance=parseInt(drawing_rights_balance)-order_total;
      //set the balances here
-    // $("#total_order_balance_value").val(balance)
+     $("#total_order_balance_value").val(balance)
      $("#total_order_value").val(order_total);
 		
 	}
@@ -444,7 +497,7 @@ var $table = $('#example');
 	function calculate_suggested_value(month){
 		$("input[name^=suggested]").each(function() {
         var amc=parseInt($(this).closest("tr").find(".amc").val());
-	 	var closing_stock=parseInt($(this).closest("tr").find(".closing").val());
+	 	var closing_stock=parseInt($(this).closest("tr").find(".closingpacks").val());
         var suggested=0;       
         if(closing_stock<0) {closing_stock=0;}
         suggested=((amc*month)-closing_stock)+amc;

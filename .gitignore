@@ -13,11 +13,14 @@
 application/config/database.php
 .htaccess
 
+<<<<<<< HEAD
 print_docs/excel/excel_files/Karura Health Centre (Kiambu Rd)_facility_order_no_492_date_created_29-01-15.xls
 print_docs/excel/excel_template/KEMSA Customer Order Form.xlsx
 print_docs/excel/excel_template/MEDS Customer Order Form.xls
 print_docs/excel/excel_template/MEDS Customer Order Form.xlsx
 
 
+=======
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
 system/libraries/Hcmp_functions.php
 

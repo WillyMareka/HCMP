@@ -19,7 +19,7 @@
 <div class="row">
 		<div class="col-md-8">
 			<div class="col-md-3">
-				<p class="bg-info">
+				<p class="bg-primary">
 			<span  class='' style="display: inline">
 				<strong>Fill the Order Quantity and Comment to complete order </strong>
 			</p>
@@ -45,6 +45,7 @@
 
 
 <div class="row" style="padding-left: 1%;margin-bottom: 5px;">
+<<<<<<< HEAD
 
 	<div class="col-md-3">
 		
@@ -69,9 +70,13 @@
 <!--<input type="hidden" id="actual_drawing_rights" name="drawing_rights" value="<?php echo $drawing_rights; ?>" />-->		
 </div>
 
+=======
+	
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
 <div class="">
 
-<!--<input type="hidden" class="form-control" name="total_order_balance_value" id="total_order_balance_value" readonly="readonly" value="<?php echo $drawing_rights; ?>"/>-->	
+<input type="hidden" class="form-control" name="total_order_balance_value" 
+id="total_order_balance_value" readonly="readonly" value="<?php echo $drawing_rights; ?>"/>	
 <input name="facility_code" type="hidden" value="<?php echo isset($facility_code)? $facility_code :$this -> session -> userdata('facility_id'); ?>" />					
 </div>
 </div>
@@ -90,6 +95,7 @@
 					    <th>Adj(+ve) (Units)</th>
 					    <th>Losses (Units)</th>
 					    <th>Closing Stock (Units)</th>
+					    <th>Closing Stock (Packs)</th>
 					    <th>No Days Out Of Stock</th>
 					    
 					    <th>AMC (Packs)</th>
@@ -133,6 +139,8 @@
 							
 							<td><input class="form-control input-small closing" readonly="readonly" type="text" name="closing[<?php echo $i ;?>]"
 								 value="<?php echo ($facility_order[$i]['closing_stock']<0)? 0:$facility_order[$i]['closing_stock'] ;?>" /></td>
+								 <td><input class="form-control input-small closingpacks" readonly="readonly" type="text" name="closingpacks[<?php echo $i ;?>]"
+								 value="<?php echo ($facility_order[$i]['closing_stock_']<0)? 0:$facility_order[$i]['closing_stock_'] ;?>" /></td>
 								 <td><input class="form-control input-small" readonly="readonly" type="text"  name="days[<?php echo $i ;?>]"  value="<?php 
 								$closing_stock=$facility_order[$i]['closing_stock'];
 								
@@ -172,7 +180,7 @@
 <script>
 $(document).ready(function() {
 	var new_count =count+1;
-	//var drawing_rights_balance=$('#actual_drawing_rights').val();
+	var drawing_rights_balance=$('#actual_drawing_rights').val();
 	//auto compute the values
 	calculate_totals();
 	calculate_suggested_value(3);
@@ -251,6 +259,7 @@ $(document).ready(function() {
                             '<input class="form-control input-small" type="text" name="adjustmentpve['+new_count+']" id="adjustmentpve['+new_count+']"  value="0"   />' ,
 							'<input class="form-control input-small" type="text" name="losses['+new_count+']" id="losses['+new_count+']" value="0"   />' ,
 							'<input class="form-control input-small" type="text" name="closing['+new_count+']" id="closing['+new_count+']" value="0"   />',
+							'<input class="form-control input-small" type="text" name="closingpacks['+new_count+']" id="closingpacks['+new_count+']" value="0"   />',
 							'<input class="form-control input-small" type="text" name="days['+new_count+']" id="days['+new_count+']" value="0"   />',
 							'<input class="form-control input-small" type="text" name="amc['+new_count+']" id="amc['+new_count+']" value="0"   />',
 							'<input class="form-control input-small" type="text" value="0" name="suggested['+new_count+']" 	id="suggested['+new_count+']" readonly="yes"  />',
@@ -293,11 +302,16 @@ $(document).ready(function() {
 	calculate_totals();	
 	});// process all the order into a summary table for the user to confirm before placing the order bed_capacity workload
 	$('.test').on('click','', function (){
+		var today = $.datepicker.formatDate('d MM, y', new Date());
 	var table_data='<div class="row" style="padding-left:2em"><div class="col-md-6"><h4>Order Summary</h4></div></div>'+
+<<<<<<< HEAD
 
 	'<div class="row" style="padding-left:2em"><div class="col-md-6">Order Frequency</div><div class="col-md-6">'+($("#order_period option:selected").text())+'</div></div>'+
 
     '<div class="row" style="padding-left:2em"><div class="col-md-6">Total Order Value (Ksh)</div><div class="col-md-6">'+number_format($("#total_order_value").val(), 2, '.', ',')+'</div></div>'+
+=======
+    '<div class="row" style="padding-left:2em"><div class="col-md-6">Total Order Value (Ksh)</div><div class="col-md-6">'+number_format($("#total_order_value").val(), 2, '.', ',')+'</div><div class="col-md-12">Order made on - '+today+'</div></div>'+
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
     '<table class="table table-hover table-bordered table-update">'+
 					"<thead><tr>"+
 					"<th>Description</th>"+
@@ -326,6 +340,7 @@ $(document).ready(function() {
       /************save the data here*******************/
 	$('#main-content').on('click','#save_dem_order',function() {
      var order_total=$('#total_order_value').val();
+<<<<<<< HEAD
 
      //var workload=$('#workload').val();
      //var bed_capacity=$('#bed_capacity').val();
@@ -345,6 +360,12 @@ $(document).ready(function() {
      $('#total_order_value').delay(500).queue(function (nxt){
     // Load up a new modal...
 
+=======
+     var alert_message='';
+     if (order_total==0) {alert_message+="<li>Sorry, you can't submit an Order Value of Zero</li>";}
+     
+     //put delay timer here
+>>>>>>> 12ff67f8af3814dd49eaad9d0721b6ef6b8a39af
     var img='<img src="<?php echo base_url('assets/img/wait.gif') ?>"/>';
      dialog_box(img+'<h5 style="display: inline-block; font-weight:500;font-size: 18px;padding-left: 2%;"> Please wait as the order is being processed</h5>',
      '');
@@ -376,7 +397,7 @@ $(document).ready(function() {
 	    $(this).closest("tr").find(".cost").val(total_cost);   
      });//check if order total is a NAN
     //calculate the balances here
-      //balance=parseInt(drawing_rights_balance)-order_total;
+      balance=parseInt(drawing_rights_balance)-order_total;
      //set the balances here
      $("#total_order_balance_value").val(balance)
      $("#total_order_value").val(order_total);
@@ -386,7 +407,7 @@ $(document).ready(function() {
 	function calculate_suggested_value(month){
 		$("input[name^=suggested]").each(function() {
         var amc=parseInt($(this).closest("tr").find(".amc").val());
-	 	var closing_stock=parseInt($(this).closest("tr").find(".closing").val());
+	 	var closing_stock=parseInt($(this).closest("tr").find(".closingpacks").val());
         var suggested=0;       
         if(closing_stock<0) {closing_stock=0;}
         suggested=((amc*month)-closing_stock)+amc;
